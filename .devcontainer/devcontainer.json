@@ -4,6 +4,7 @@
     "features": {
       "azure-cli": "latest"
     },
+    "workspaceFolder": ".",
     "customizations": {
       "vscode": {
         "extensions": [
