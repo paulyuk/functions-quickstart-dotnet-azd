@@ -58,8 +58,8 @@ module appServicePlan './core/host/appserviceplan.bicep' = {
     location: location
     tags: tags
     sku: {
-      name: 'FC1'
-      tier: 'FlexConsumption'
+      name: 'EP1' // Change this to the desired Elastic Premium SKU
+      tier: 'ElasticPremium'
     }
   }
 }
@@ -121,6 +121,7 @@ module serviceVirtualNetwork 'app/vnet.bicep' = {
     vNetName: !empty(vNetName) ? vNetName : '${abbrs.networkVirtualNetworks}${resourceToken}'
   }
 }
+
 
 module storagePrivateEndpoint 'app/storage-PrivateEndpoint.bicep' = {
   name: 'servicePrivateEndpoint'

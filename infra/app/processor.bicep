@@ -10,14 +10,13 @@ param serviceName string = 'processor'
 param storageAccountName string
 param deploymentStorageContainerName string
 param virtualNetworkSubnetId string = ''
-param instanceMemoryMB int = 2048
-param maximumInstanceCount int = 100
 param identityId string = ''
 param identityClientId string = ''
 
 var applicationInsightsIdentity = 'ClientId=${identityClientId};Authorization=AAD'
 
-module processor '../core/host/functions-flexconsumption.bicep' = {
+
+module processor '../core/host/functions.bicep' = {
   name: '${serviceName}-functions-module'
   params: {
     name: name
@@ -28,6 +27,7 @@ module processor '../core/host/functions-flexconsumption.bicep' = {
     appSettings: union(appSettings,
       {
         AzureWebJobsStorage__clientId : identityClientId
+        AzureWebJobsStorage__credential : 'managedidentity'
         APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsightsIdentity
       })
     applicationInsightsName: applicationInsightsName
@@ -35,10 +35,9 @@ module processor '../core/host/functions-flexconsumption.bicep' = {
     runtimeName: runtimeName
     runtimeVersion: runtimeVersion
     storageAccountName: storageAccountName
+    storageManagedIdentity: true
     deploymentStorageContainerName: deploymentStorageContainerName
     virtualNetworkSubnetId: virtualNetworkSubnetId
-    instanceMemoryMB: instanceMemoryMB 
-    maximumInstanceCount: maximumInstanceCount
   }
 }
 
