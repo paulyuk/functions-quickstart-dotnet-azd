@@ -95,6 +95,7 @@ module storage './core/storage/storage-account.bicep' = {
     tags: tags
     containers: [{name: deploymentStorageContainerName}]
     publicNetworkAccess: 'Disabled'
+    allowBlobPublicAccess: true
   }
 }
 
