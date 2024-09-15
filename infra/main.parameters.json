@@ -46,6 +46,9 @@
     },
     "disableLocalAuth": {
       "value": "${AZURE_DISABLE_LOCAL_AUTH}"
+    },
+    "principalId": {
+      "value": "${AZURE_PRINCIPAL_ID}"
     }
   }
 }

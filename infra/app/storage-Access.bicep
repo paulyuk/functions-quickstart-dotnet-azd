@@ -1,6 +1,7 @@
 param principalID string
 param roleDefinitionID string
 param storageAccountName string
+param principalType string = 'ServicePrincipal' // Workaround for https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-template#new-service-principal
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-09-01' existing = {
   name: storageAccountName
@@ -13,7 +14,7 @@ resource storageRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionID)
     principalId: principalID
-    principalType: 'ServicePrincipal' // Workaround for https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-template#new-service-principal
+    principalType: principalType 
   }
 }
 

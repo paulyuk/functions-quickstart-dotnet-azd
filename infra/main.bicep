@@ -64,6 +64,9 @@ var tags = { 'azd-env-name': environmentName }
 var functionAppName = !empty(processorServiceName) ? processorServiceName : '${abbrs.webSitesFunctions}processor-${resourceToken}'
 var deploymentStorageContainerName = 'app-package-${take(functionAppName, 32)}-${take(toLower(uniqueString(functionAppName, resourceToken)), 7)}'
 
+@description('Id of the user or app to assign application roles')
+param principalId string = ''
+
 // Organize resources in a resource group
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: !empty(resourceGroupName) ? resourceGroupName : '${abbrs.resourcesResourceGroups}${environmentName}'
@@ -138,14 +141,27 @@ module storage './core/storage/storage-account.bicep' = {
 
 var storageRoleDefinitionId  = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' //Storage Blob Data Owner role
 
-// Allow access from processor to storage account using a managed identity
-module storageRoleAssignmentApi 'app/storage-Access.bicep' = {
-  name: 'storageRoleAssignmentPRocessor'
+// Allow access from processor to storage account using a user assigned managed identity
+module storageRoleAssignmentApiUAMI 'app/storage-Access.bicep' = {
+  name: 'storageRoleAssignmentPocessorUAMI'
   scope: rg
   params: {
     storageAccountName: storage.outputs.name
     roleDefinitionID: storageRoleDefinitionId
     principalID: processorUserAssignedIdentity.outputs.identityPrincipalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Allow access from processor to storage account using the Login identity of this bicep (usually AZD CLI)
+module storageRoleAssignmentApi 'app/storage-Access.bicep' = {
+  name: 'storageRoleAssignmentProcessorLoginIdentity'
+  scope: rg
+  params: {
+    storageAccountName: storage.outputs.name
+    roleDefinitionID: storageRoleDefinitionId
+    principalID: principalId
+    principalType: 'User'
   }
 }
 
@@ -205,3 +221,6 @@ output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
 output SERVICE_PROCESSOR_NAME string = processor.outputs.SERVICE_PROCESSOR_NAME
 output AZURE_FUNCTION_NAME string = processor.outputs.SERVICE_PROCESSOR_NAME
+output AZURE_RESOURCE_GROUP string = rg.name
+output AZURE_STORAGE_ACCOUNT_NAME string = storage.outputs.name
+output AZURE_STORAGE_CONTAINER_NAME string = deploymentStorageContainerName
