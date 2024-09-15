@@ -7,6 +7,45 @@
     },
     "location": {
       "value": "${AZURE_LOCATION}"
+    },
+    "functionSkuName": {
+      "value": "${AZURE_FUNCTION_SKU_NAME=EP1}"
+    },
+    "functionSkuTier": {
+      "value": "${AZURE_FUNCTION_SKU_TIER=ElasticPremium}"
+    },
+    "functionReservedPlan": {
+      "value": "${AZURE_FUNCTION_RESERVED_PLAN}",
+      "metadata": {
+        "description": "Set to true for Linux and false for Windows"
+      }
+    },
+    "processorServiceName": {
+      "value": "${AZURE_PROCESSOR_SERVICE_NAME}"
+    },
+    "processorUserAssignedIdentityName": {
+      "value": "${AZURE_PROCESSOR_USER_ASSIGNED_IDENTITY_NAME}"
+    },
+    "applicationInsightsName": {
+      "value": "${AZURE_APPLICATION_INSIGHTS_NAME}"
+    },
+    "appServicePlanName": {
+      "value": "${AZURE_APP_SERVICE_PLAN_NAME}"
+    },
+    "logAnalyticsName": {
+      "value": "${AZURE_LOG_ANALYTICS_NAME}"
+    },
+    "resourceGroupName": {
+      "value": "${AZURE_RESOURCE_GROUP_NAME}"
+    },
+    "storageAccountName": {
+      "value": "${AZURE_STORAGE_ACCOUNT_NAME}"
+    },
+    "vNetName": {
+      "value": "${AZURE_VNET_NAME}"
+    },
+    "disableLocalAuth": {
+      "value": "${AZURE_DISABLE_LOCAL_AUTH}"
     }
   }
 }

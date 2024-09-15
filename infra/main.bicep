@@ -15,6 +15,39 @@ param environmentName string
 })
 param location string
 
+@allowed([
+  'EP1'
+  'EP2'
+  'EP3'
+  'P1v2'
+  'P2v2'
+  'P3v2'
+  'P1v3'
+  'P2v3'
+  'P3v3'
+  'P1mv3'
+  'P2mv3'
+  'P3mv3'
+  'P4mv3'
+  'P5mv3'
+  'P0v3'
+  'S1'
+  'B1'
+  'B2'
+  'B3'
+])
+param functionSkuName string = 'EP1' // Uses main.parameters.json first
+
+@allowed([
+  'ElasticPremium'
+  'PremiumV3'
+  'Premium0V3'
+  'Standard'
+  'Basic'
+])
+param functionSkuTier string = 'ElasticPremium' // Uses main.parameters.json first
+param functionReservedPlan bool = true // Set to false to get a Windows OS plan
+
 param processorServiceName string = ''
 param processorUserAssignedIdentityName string = ''
 param applicationInsightsName string = ''
@@ -58,9 +91,10 @@ module appServicePlan './core/host/appserviceplan.bicep' = {
     location: location
     tags: tags
     sku: {
-      name: 'EP1' // Change this to the desired Elastic Premium SKU
-      tier: 'ElasticPremium'
+      name: functionSkuName // Change this to the desired Elastic Premium SKU
+      tier: functionSkuTier
     }
+    reserved: true // Set to false to get a Windows OS plan
   }
 }
 
