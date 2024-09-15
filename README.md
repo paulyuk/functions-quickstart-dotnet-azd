@@ -14,7 +14,7 @@ languages:
 
 # Azure Functions C# HTTP Trigger using AZD
 
-This sample template provides a set of basic HTTP trigger functions in C# (isolated process mode) that are ready to run locally and can be easily deployed to a function app in Azure Functions.  
+This sample template provides a set of basic HTTP trigger functions in C# (isolated process mode) that are ready to run locally and can be easily deployed to a function app in Azure Functions.  This template has been modified to default the deployment to an Elastic Premium EP1 plan on Linux OS (which can be changed to PremiumV3, Standard and Basic dedicated plans of App Service, or to from Linux to Windows).  Also, this template uses WEBSITE_RUN_FROM_PACKAGE=url mechanism to securely deploy the app and load using User-Assigned Managed Identity. 
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=836901178)
 
@@ -121,10 +121,44 @@ public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "post")] Http
 
 The easiest way to deploy this app is using the [Azure Dev CLI aka AZD](https://aka.ms/azd).  If you open this repo in GitHub CodeSpaces the AZD tooling is already preinstalled.
 
+Before provisioning, allow the deployment script to be executed (a script is needed for Run From Package style deployment):
+
+Bash/Zsh/Sh
+```bash
+chmod +x ./scripts/deploy.sh
+```
+
+PowerShell
+```powershell
+Set-ExecutionPolicy RemoteSigned
+```
+
 To provision:
 
 ```bash
 azd up
 ```
 
-Note that Visual Studio does not yet work to publish Flex Consumption apps. Please use Azure Functions Core Tools, Az CLI or VS Code alternatives instead to deploy your app zip to these Flex resources.
+This template defaults to **Elastic Premium EP1 sku plan on Linux**.  
+
+To change SKU plan and OS:
+
+Set these environment variables on your system or override the default in `main.parameters.json`.  See `main.bicep` for AllowedValues or see documentation for Azure Functions Bicep and ARM.  
+
+```json
+"functionSkuName": {
+    "value": "${AZURE_FUNCTION_SKU_NAME=EP1}"
+},
+"functionSkuTier": {
+    "value": "${AZURE_FUNCTION_SKU_TIER=ElasticPremium}"
+},
+"functionReservedPlan": {
+    "value": "${AZURE_FUNCTION_RESERVED_PLAN}",
+    "metadata": {
+    "description": "Set to true for Linux and false for Windows"
+    }
+},
+```
+
+
+**Note** for Flex Consumption Quickstarts please use this alternate template: https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-azure-developer-cli 
