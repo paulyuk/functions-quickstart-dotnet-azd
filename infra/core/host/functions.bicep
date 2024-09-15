@@ -64,7 +64,6 @@ module functions 'appservice.bicep' = {
     appServicePlanId: appServicePlanId
     appSettings: union(appSettings, {
         AzureWebJobsStorage__accountName: storageManagedIdentity ? storage.name : null
-        AzureWebJobsStorage: storageManagedIdentity ? null : 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
         FUNCTIONS_EXTENSION_VERSION: extensionVersion
         FUNCTIONS_WORKER_RUNTIME: runtimeName
         WEBSITE_RUN_FROM_PACKAGE: 'https://${storage.name}.blob.core.windows.net/${deploymentStorageContainerName}/${deploymentStorageFileName}.zip'

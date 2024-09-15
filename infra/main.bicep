@@ -93,8 +93,11 @@ module storage './core/storage/storage-account.bicep' = {
     name: !empty(storageAccountName) ? storageAccountName : '${abbrs.storageStorageAccounts}${resourceToken}'
     location: location
     tags: tags
-    containers: [{name: deploymentStorageContainerName}]
-    publicNetworkAccess: 'Disabled'
+    containers: [{
+      name: deploymentStorageContainerName
+      publicAccess: 'Blob'
+    }]
+    publicNetworkAccess: 'Enabled' // revisit for wave 3
     allowBlobPublicAccess: true
   }
 }
