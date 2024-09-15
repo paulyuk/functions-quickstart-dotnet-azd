@@ -94,7 +94,7 @@ module appServicePlan './core/host/appserviceplan.bicep' = {
       name: functionSkuName // Change this to the desired Elastic Premium SKU
       tier: functionSkuTier
     }
-    reserved: true // Set to false to get a Windows OS plan
+    reserved: functionReservedPlan // Set to false to get a Windows OS plan
   }
 }
 
