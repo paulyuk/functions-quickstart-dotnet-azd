@@ -78,6 +78,8 @@ module functions 'appservice.bicep' = {
     kind: kind
     linuxFxVersion: linuxFxVersion
     managedIdentity: managedIdentity
+    identityId: identityId
+    identityType: identityType
     minimumElasticInstanceCount: minimumElasticInstanceCount
     numberOfWorkers: numberOfWorkers
     runtimeName: runtimeName

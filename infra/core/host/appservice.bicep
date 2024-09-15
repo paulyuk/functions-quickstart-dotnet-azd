@@ -8,6 +8,10 @@ param applicationInsightsName string = ''
 param appServicePlanId string
 param keyVaultName string = ''
 param managedIdentity bool = !empty(keyVaultName)
+@allowed(['SystemAssigned', 'UserAssigned'])
+param identityType string
+@description('User assigned identity name')
+param identityId string
 
 // Runtime Properties
 @allowed([
@@ -65,7 +69,14 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
     virtualNetworkSubnetId: !empty(virtualNetworkSubnetId) ? virtualNetworkSubnetId : null
   }
 
-  identity: { type: managedIdentity ? 'SystemAssigned' : 'None' }
+  identity: managedIdentity ? (identityType == 'UserAssigned' ? {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${identityId}': {}
+    }
+  } : {
+    type: 'SystemAssigned'
+  }) : null
 
   resource basicPublishingCredentialsPoliciesFtp 'basicPublishingCredentialsPolicies' = {
     name: 'ftp'
@@ -120,6 +131,6 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing
   name: applicationInsightsName
 }
 
-output identityPrincipalId string = managedIdentity ? appService.identity.principalId : ''
+output identityPrincipalId string = managedIdentity ? string(appService.identity.userAssignedIdentities[identityId].principalId) : ''
 output name string = appService.name
 output uri string = 'https://${appService.properties.defaultHostName}'
