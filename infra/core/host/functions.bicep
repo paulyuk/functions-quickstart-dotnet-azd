@@ -49,7 +49,7 @@ param scmDoBuildDuringDeployment bool = true
 param use32BitWorkerProcess bool = false
 param healthCheckPath string = ''
 param deploymentStorageContainerName string
-param deploymentStorageFileName string = 'functions'
+param deploymentStorageFileName string = 'functions' // Default to functions.zip name in WEBSITE_RUN_FROM_PACKAGE=<url> value 
 
 module functions 'appservice.bicep' = {
   name: '${name}-functions'
