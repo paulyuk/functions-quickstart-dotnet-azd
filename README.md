@@ -139,6 +139,8 @@ To provision:
 azd up
 ```
 
+**Note** you will see a `"Run-From-Zip is set to a remote URL using WEBSITE_RUN_FROM_PACKAGE or WEBSITE_USE_ZIP app setting.` error and that is ok/ignorable.  
+
 This template defaults to **Elastic Premium EP1 sku plan on Linux**.  
 
 To change SKU plan and OS:
