@@ -1,11 +1,5 @@
 #!/bin/bash
 
-set -o allexport; source ./.azure/ep10/.env; set +o allexport
-
-echo "Environment variables set."
-echo ""
-# echo "Showing environment variables with env command:"
-# env
 
 commands=("az" "func" "zip" "dotnet")
 
@@ -16,34 +10,46 @@ for cmd in "${commands[@]}"; do
   fi
 done
 
-cd ./http
+# delete the bin and obj folders to get around an issue - temporary, fix is coming
+rm -rf ./http/bin
+rm -rf ./http/obj
 
 # Define variables
 functionAppPath="."
 zipFilePath="./http/bin/publish"
 zipFileName="functions.zip"
 
-# delete the bin and obj folders to get around an issue - temporary, fix is coming
-rm -rf bin
-rm -rf obj
-
-# Build the function app project
-# dotnet build
-
 # Create the the application zip package
 azd package --output-path $zipFilePath/$zipFileName
 
+# Fetch Azure environment variables using azd env get-values
+output=$(azd env get-values)
+
+# Use a file descriptor to avoid subshell
+while IFS= read -r line; do
+  name=$(echo "$line" | cut -d'=' -f1 | sed 's/^["'\'']//;s/["'\'']$//')
+  value=$(echo "$line" | cut -d'=' -f2 | sed 's/^["'\'']//;s/["'\'']$//')
+  export "$name=$value"
+  echo "$name=$value"
+done <<< "$output"
+
+echo ""
+echo "Environment variables set."
+echo ""
+# echo "Showing environment variables with env command:"
+# env
+
 # Upload the zip package to Azure Storage Blob container
-echo "Uploading functions.zip to Azure Storage Blob container $storageAccountName/$storageContainerName/$blobName..."
-echo "az storage blob upload --account-name $AZURE_STORAGE_CONTAINER_NAME --container-name $AZURE_STORAGE_CONTAINER_NAME --name $zipFileName --file $zipFilePath/$zipFileName --auth-mode login --overwrite"
-az storage blob upload --account-name $AZURE_STORAGE_CONTAINER_NAME --container-name $AZURE_STORAGE_CONTAINER_NAME --name $zipFileName --file $zipFilePath/$zipFileName --auth-mode login --overwrite
+echo "Uploading functions.zip to Azure Storage Blob container $AZURE_STORAGE_ACCOUNT_NAME/$AZURE_STORAGE_CONTAINER_NAME/$zipFileName..."
+echo "az storage blob upload --account-name $AZURE_STORAGE_ACCOUNT_NAME --container-name $AZURE_STORAGE_CONTAINER_NAME --name $zipFileName --file $zipFilePath/$zipFileName --auth-mode login --overwrite"
+az storage blob upload --account-name $AZURE_STORAGE_ACCOUNT_NAME --container-name $AZURE_STORAGE_CONTAINER_NAME --name $zipFileName --file $zipFilePath/$zipFileName --auth-mode login --overwrite
 
 echo "Deployed functions.zip successfully to $storageAccountName/$storageContainerName/$blobName"
 
 # Restarting the function app with new functions.zip blob
 echo "Restarting the function app..."
-echo "az functionapp restart --name $AZURE_FUNCTION_NAME --resource-group $resourceGroupName"
-az functionapp restart --name $AZURE_FUNCTION_NAME --resource-group $resourceGroupName
+echo "az functionapp restart --name $AZURE_FUNCTION_NAME --resource-group $AZURE_RESOURCE_GROUP"
+az functionapp restart --name $AZURE_FUNCTION_NAME --resource-group $AZURE_RESOURCE_GROUP
 
 # Purge a deleted resource
 # az resource delete --ids /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP/providers/Microsoft.CognitiveServices/accounts/$AZURE_FORMRECOGNIZER_SERVICE
