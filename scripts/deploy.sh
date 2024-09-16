@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-commands=("az" "func" "zip" "dotnet")
+commands=("azd" "az" "func" "dotnet")
 
 for cmd in "${commands[@]}"; do
   if ! command -v "$cmd" &>/dev/null; then
