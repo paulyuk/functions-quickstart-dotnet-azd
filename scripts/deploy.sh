@@ -44,7 +44,7 @@ echo "Uploading functions.zip to Azure Storage Blob container $AZURE_STORAGE_ACC
 echo "az storage blob upload --account-name $AZURE_STORAGE_ACCOUNT_NAME --container-name $AZURE_STORAGE_CONTAINER_NAME --name $zipFileName --file $zipFilePath/$zipFileName --auth-mode login --overwrite"
 az storage blob upload --account-name $AZURE_STORAGE_ACCOUNT_NAME --container-name $AZURE_STORAGE_CONTAINER_NAME --name $zipFileName --file $zipFilePath/$zipFileName --auth-mode login --overwrite
 
-echo "Deployed functions.zip successfully to $storageAccountName/$storageContainerName/$blobName"
+echo "Deployed functions.zip successfully to $AZURE_STORAGE_ACCOUNT_NAME/$AZURE_STORAGE_CONTAINER_NAME/$zipFileName"
 
 # Restarting the function app with new functions.zip blob
 echo "Restarting the function app..."
