@@ -49,7 +49,6 @@ Write-Output "Deployed functions.zip successfully to $env:AZURE_STORAGE_ACCOUNT_
 # Restarting the function app with new functions.zip blob
 Write-Output "Restarting the function app..."
 az functionapp restart --name $env:AZURE_FUNCTION_NAME --resource-group $env:AZURE_RESOURCE_GROUP
-az functionapp restart --name $env:AZURE_FUNCTION_NAME --resource-group $env:AZURE_RESOURCE_GROUP
 
 # Purge a deleted resource (commented out)
 # az resource delete --ids /subscriptions/$env:AZURE_SUBSCRIPTION_ID/resourceGroups/$env:AZURE_RESOURCE_GROUP/providers/Microsoft.CognitiveServices/accounts/$env:AZURE_FORMRECOGNIZER_SERVICE
