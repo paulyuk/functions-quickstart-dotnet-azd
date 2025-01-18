@@ -14,7 +14,7 @@ param environmentName string
   }
 })
 param location string
-param skipVnet bool = false
+param skipVnet bool = true
 param apiServiceName string = ''
 param apiUserAssignedIdentityName string = ''
 param applicationInsightsName string = ''
@@ -58,8 +58,8 @@ module appServicePlan './core/host/appserviceplan.bicep' = {
     location: location
     tags: tags
     sku: {
-      name: 'FC1'
-      tier: 'FlexConsumption'
+      name: 'Y1'
+      tier: 'Dynamic'
     }
   }
 }
@@ -79,6 +79,7 @@ module api './app/api.bicep' = {
     deploymentStorageContainerName: deploymentStorageContainerName
     identityId: apiUserAssignedIdentity.outputs.identityId
     identityClientId: apiUserAssignedIdentity.outputs.identityClientId
+    identityType: 'UserAssigned'
     appSettings: {
     }
     virtualNetworkSubnetId: skipVnet ? '' : serviceVirtualNetwork.outputs.appSubnetID

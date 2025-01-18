@@ -12,33 +12,41 @@ param deploymentStorageContainerName string
 param virtualNetworkSubnetId string = ''
 param instanceMemoryMB int = 2048
 param maximumInstanceCount int = 100
-param identityId string = ''
 param identityClientId string = ''
+@allowed(['SystemAssigned', 'UserAssigned'])
+param identityType string
+@description('User assigned identity resource id')
+param identityId string
+
 
 var applicationInsightsIdentity = 'ClientId=${identityClientId};Authorization=AAD'
 
-module api '../core/host/functions-flexconsumption.bicep' = {
+module api '../core/host/functions.bicep' = {
   name: '${serviceName}-functions-module'
   params: {
     name: name
     location: location
     tags: union(tags, { 'azd-service-name': serviceName })
-    identityType: 'UserAssigned'
-    identityId: identityId
     appSettings: union(appSettings,
       {
+        AzureWebJobsStorage__accountName: storageAccountName
+        AzureWebJobsStorage__credential : 'managedidentity'
         AzureWebJobsStorage__clientId : identityClientId
         APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsightsIdentity
       })
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId
+    alwaysOn: false
+    managedIdentity: true
+    identityType: identityType
+    identityId: identityId
+    kind: 'functionapp,linux'
     runtimeName: runtimeName
     runtimeVersion: runtimeVersion
     storageAccountName: storageAccountName
-    deploymentStorageContainerName: deploymentStorageContainerName
     virtualNetworkSubnetId: virtualNetworkSubnetId
-    instanceMemoryMB: instanceMemoryMB 
-    maximumInstanceCount: maximumInstanceCount
+    scmDoBuildDuringDeployment: false
+    enableOryxBuild: false
   }
 }
 
