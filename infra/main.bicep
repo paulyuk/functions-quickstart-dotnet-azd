@@ -61,6 +61,7 @@ module appServicePlan './core/host/appserviceplan.bicep' = {
       name: 'Y1'
       tier: 'Dynamic'
     }
+    reserved: false // Set false for Windows plan
   }
 }
 

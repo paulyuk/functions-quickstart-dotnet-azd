@@ -37,7 +37,7 @@ module api '../core/host/functions.bicep' = {
     managedIdentity: false
     identityType: identityType
     identityId: identityId
-    kind: 'functionapp,linux'
+    kind: 'functionapp'  // Correct kind for Windows; for Linux use 'functionapp,linux'
     runtimeName: runtimeName
     runtimeVersion: runtimeVersion
     storageAccountName: storageAccountName
