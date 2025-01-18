@@ -16,7 +16,7 @@ param identityClientId string = ''
 @allowed(['SystemAssigned', 'UserAssigned'])
 param identityType string
 @description('User assigned identity resource id')
-param identityId string
+param identityId string = ''
 
 
 var applicationInsightsIdentity = 'ClientId=${identityClientId};Authorization=AAD'
@@ -29,15 +29,12 @@ module api '../core/host/functions.bicep' = {
     tags: union(tags, { 'azd-service-name': serviceName })
     appSettings: union(appSettings,
       {
-        AzureWebJobsStorage__accountName: storageAccountName
-        AzureWebJobsStorage__credential : 'managedidentity'
-        AzureWebJobsStorage__clientId : identityClientId
         APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsightsIdentity
       })
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId
     alwaysOn: false
-    managedIdentity: true
+    managedIdentity: false
     identityType: identityType
     identityId: identityId
     kind: 'functionapp,linux'
