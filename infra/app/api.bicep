@@ -29,7 +29,8 @@ module api '../core/host/functions.bicep' = {
     tags: union(tags, { 'azd-service-name': serviceName })
     appSettings: union(appSettings,
       {
-        APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsightsIdentity
+        //  APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsightsIdentity
+        //  Not using MI in this bad app branch
       })
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId
