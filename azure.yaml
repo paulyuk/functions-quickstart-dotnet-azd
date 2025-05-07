@@ -4,7 +4,7 @@ name: functions-quickstart-dotnet-azd-sfi-wave1-premium
 metadata:
   template: functions-quickstart-dotnet-azd-sfi-wave1-premium@1.0.0
 services:
-  processor:
+  api:
     project: ./http/
     language: dotnet
     host: function
