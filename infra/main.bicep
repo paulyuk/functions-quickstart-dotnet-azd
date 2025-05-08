@@ -51,22 +51,19 @@ param functionSkuTier string = 'ElasticPremium' // Uses main.parameters.json fir
 param functionReservedPlan bool = true // Set to false to get a Windows OS plan
 
 param vnetEnabled bool
-param processorServiceName string = ''
 param apiServiceName string = ''
 param apiUserAssignedIdentityName string = ''
-// param processorUserAssignedIdentityName string = ''
 param applicationInsightsName string = ''
 param appServicePlanName string = ''
 param logAnalyticsName string = ''
 param resourceGroupName string = ''
 param storageAccountName string = ''
 param vNetName string = ''
-// param disableLocalAuth bool = true
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 var tags = { 'azd-env-name': environmentName }
-var functionAppName = !empty(processorServiceName) ? processorServiceName : '${abbrs.webSitesFunctions}processor-${resourceToken}'
+var functionAppName = !empty(apiServiceName) ? apiServiceName : '${abbrs.webSitesFunctions}processor-${resourceToken}'
 var deploymentStorageContainerName = 'app-package-${take(functionAppName, 32)}-${take(toLower(uniqueString(functionAppName, resourceToken)), 7)}'
 
 @description('Id of the user or app to assign application roles')
@@ -104,7 +101,6 @@ module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
     reserved: functionReservedPlan // Set to false to get a Windows OS plan
     location: location
     tags: tags
-    //elasticScaleEnabled: true
     maximumElasticWorkerCount: 3
   }
 }
@@ -116,7 +112,7 @@ module api './app/api.bicep' = {
     name: functionAppName
     location: location
     tags: tags
-    applicationInsightsName: monitoring.outputs.applicationInsightsName
+    applicationInsightsName: monitoring.outputs.name
     appServicePlanId: appServicePlan.outputs.resourceId
     runtimeName: 'dotnet-isolated'
     runtimeVersion: '8.0'
@@ -174,7 +170,7 @@ module rbac 'app/rbac.bicep' = {
   scope: rg
   params: {
     storageAccountName: storage.outputs.name
-    appInsightsName: monitoring.outputs.applicationInsightsName
+    appInsightsName: monitoring.outputs.name
     managedIdentityPrincipalId: apiUserAssignedIdentity.outputs.principalId
     userIdentityPrincipalId: principalId
     enableBlob: storageEndpointConfig.enableBlob
@@ -210,20 +206,32 @@ module storagePrivateEndpoint 'app/storage-PrivateEndpoint.bicep' = if (vnetEnab
   }
 }
 
-// Monitor application with Azure Monitor
-module monitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = {
-  name: 'monitoring'
+// Monitor application with Azure Monitor - Log Analytics and Application Insights
+module logAnalytics 'br/public:avm/res/operational-insights/workspace:0.7.0' = {
+  name: '${uniqueString(deployment().name, location)}-loganalytics'
   scope: rg
   params: {
-    applicationInsightsName: !empty(applicationInsightsName) ? applicationInsightsName : '${abbrs.insightsComponents}${resourceToken}'
-    logAnalyticsName: !empty(logAnalyticsName) ? logAnalyticsName : '${abbrs.operationalInsightsWorkspaces}${resourceToken}'
+    name: !empty(logAnalyticsName) ? logAnalyticsName : '${abbrs.operationalInsightsWorkspaces}${resourceToken}'
     location: location
     tags: tags
+    dataRetention: 30
+  }
+}
+ 
+module monitoring 'br/public:avm/res/insights/component:0.4.1' = {
+  name: '${uniqueString(deployment().name, location)}-appinsights'
+  scope: rg
+  params: {
+    name: !empty(applicationInsightsName) ? applicationInsightsName : '${abbrs.insightsComponents}${resourceToken}'
+    location: location
+    tags: tags
+    workspaceResourceId: logAnalytics.outputs.resourceId
+    disableLocalAuth: true
   }
 }
 
 // App outputs
-output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applicationInsightsConnectionString
+output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.connectionString
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
 output SERVICE_API_NAME string = api.outputs.SERVICE_API_NAME
