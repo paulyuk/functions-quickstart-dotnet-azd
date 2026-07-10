@@ -1,0 +1,1080 @@
+{
+  "author": "Microsoft",
+  "name": "$FunctionsQuickstartDotNetAzd_name",
+  "description": "$FunctionsQuickstartDotNetAzd_description",
+  "programmingModel": "v2",
+  "language": "dotnet",
+  "jobs": [
+    {
+      "name": "Create Azure Functions .NET azd quickstart project",
+      "type": "CreateNewApp",
+      "inputs": [
+        {
+          "assignTo": "$(FUNCTION_NAME_INPUT)",
+          "paramId": "trigger-functionName",
+          "required": false,
+          "defaultValue": "http"
+        }
+      ],
+      "actions": [
+        "read_0",
+        "write_0",
+        "read_1",
+        "write_1",
+        "read_2",
+        "write_2",
+        "read_3",
+        "write_3",
+        "read_4",
+        "write_4",
+        "read_5",
+        "write_5",
+        "read_6",
+        "write_6",
+        "read_7",
+        "write_7",
+        "read_8",
+        "write_8",
+        "read_9",
+        "write_9",
+        "read_10",
+        "write_10",
+        "read_11",
+        "write_11",
+        "read_12",
+        "write_12",
+        "read_13",
+        "write_13",
+        "read_14",
+        "write_14",
+        "read_15",
+        "write_15",
+        "read_16",
+        "write_16",
+        "read_17",
+        "write_17",
+        "read_18",
+        "write_18",
+        "read_19",
+        "write_19",
+        "read_20",
+        "write_20",
+        "read_21",
+        "write_21",
+        "read_22",
+        "write_22",
+        "read_23",
+        "write_23",
+        "read_24",
+        "write_24",
+        "read_25",
+        "write_25",
+        "read_26",
+        "write_26",
+        "read_27",
+        "write_27",
+        "read_28",
+        "write_28",
+        "read_29",
+        "write_29",
+        "read_30",
+        "write_30",
+        "read_31",
+        "write_31",
+        "read_32",
+        "write_32",
+        "read_33",
+        "write_33",
+        "read_34",
+        "write_34",
+        "read_35",
+        "write_35",
+        "read_36",
+        "write_36",
+        "read_37",
+        "write_37",
+        "read_38",
+        "write_38",
+        "read_39",
+        "write_39",
+        "read_40",
+        "write_40",
+        "read_41",
+        "write_41",
+        "read_42",
+        "write_42",
+        "read_43",
+        "write_43",
+        "read_44",
+        "write_44",
+        "read_45",
+        "write_45",
+        "read_46",
+        "write_46",
+        "read_47",
+        "write_47",
+        "read_48",
+        "write_48",
+        "read_49",
+        "write_49",
+        "read_50",
+        "write_50",
+        "read_51",
+        "write_51",
+        "read_52",
+        "write_52",
+        "read_53",
+        "write_53",
+        "read_54",
+        "write_54",
+        "read_55",
+        "write_55",
+        "read_56",
+        "write_56",
+        "read_57",
+        "write_57",
+        "read_58",
+        "write_58",
+        "read_59",
+        "write_59",
+        "read_60",
+        "write_60",
+        "read_61",
+        "write_61"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "read_0",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_0)",
+      "filePath": ".devcontainer/Dockerfile"
+    },
+    {
+      "name": "write_0",
+      "type": "WriteToFile",
+      "source": "$(FILE_0)",
+      "filePath": ".devcontainer/Dockerfile",
+      "continueOnError": false,
+      "errorText": "Unable to write .devcontainer/Dockerfile",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_1",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_1)",
+      "filePath": ".devcontainer/devcontainer.json"
+    },
+    {
+      "name": "write_1",
+      "type": "WriteToFile",
+      "source": "$(FILE_1)",
+      "filePath": ".devcontainer/devcontainer.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .devcontainer/devcontainer.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_2",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_2)",
+      "filePath": ".devcontainer/first-run-notice.txt"
+    },
+    {
+      "name": "write_2",
+      "type": "WriteToFile",
+      "source": "$(FILE_2)",
+      "filePath": ".devcontainer/first-run-notice.txt",
+      "continueOnError": false,
+      "errorText": "Unable to write .devcontainer/first-run-notice.txt",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_3",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_3)",
+      "filePath": ".github/CODE_OF_CONDUCT.md"
+    },
+    {
+      "name": "write_3",
+      "type": "WriteToFile",
+      "source": "$(FILE_3)",
+      "filePath": ".github/CODE_OF_CONDUCT.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/CODE_OF_CONDUCT.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_4",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_4)",
+      "filePath": ".github/ISSUE_TEMPLATE.md"
+    },
+    {
+      "name": "write_4",
+      "type": "WriteToFile",
+      "source": "$(FILE_4)",
+      "filePath": ".github/ISSUE_TEMPLATE.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/ISSUE_TEMPLATE.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_5",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_5)",
+      "filePath": ".github/PULL_REQUEST_TEMPLATE.md"
+    },
+    {
+      "name": "write_5",
+      "type": "WriteToFile",
+      "source": "$(FILE_5)",
+      "filePath": ".github/PULL_REQUEST_TEMPLATE.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/PULL_REQUEST_TEMPLATE.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_6",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_6)",
+      "filePath": ".github/prompts/.propagation/README.md"
+    },
+    {
+      "name": "write_6",
+      "type": "WriteToFile",
+      "source": "$(FILE_6)",
+      "filePath": ".github/prompts/.propagation/README.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/README.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_7",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_7)",
+      "filePath": ".github/prompts/.propagation/SOLUTION_SUMMARY.md"
+    },
+    {
+      "name": "write_7",
+      "type": "WriteToFile",
+      "source": "$(FILE_7)",
+      "filePath": ".github/prompts/.propagation/SOLUTION_SUMMARY.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/SOLUTION_SUMMARY.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_8",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_8)",
+      "filePath": ".github/prompts/.propagation/check-existing-prs.js"
+    },
+    {
+      "name": "write_8",
+      "type": "WriteToFile",
+      "source": "$(FILE_8)",
+      "filePath": ".github/prompts/.propagation/check-existing-prs.js",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/check-existing-prs.js",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_9",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_9)",
+      "filePath": ".github/prompts/.propagation/cleanup-duplicates.js"
+    },
+    {
+      "name": "write_9",
+      "type": "WriteToFile",
+      "source": "$(FILE_9)",
+      "filePath": ".github/prompts/.propagation/cleanup-duplicates.js",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/cleanup-duplicates.js",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_10",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_10)",
+      "filePath": ".github/prompts/.propagation/discovery-audit-2025-08-07.md"
+    },
+    {
+      "name": "write_10",
+      "type": "WriteToFile",
+      "source": "$(FILE_10)",
+      "filePath": ".github/prompts/.propagation/discovery-audit-2025-08-07.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/discovery-audit-2025-08-07.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_11",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_11)",
+      "filePath": ".github/prompts/.propagation/discovery-methods-reference.md"
+    },
+    {
+      "name": "write_11",
+      "type": "WriteToFile",
+      "source": "$(FILE_11)",
+      "filePath": ".github/prompts/.propagation/discovery-methods-reference.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/discovery-methods-reference.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_12",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_12)",
+      "filePath": ".github/prompts/.propagation/fix_infra_and_audit.sh"
+    },
+    {
+      "name": "write_12",
+      "type": "WriteToFile",
+      "source": "$(FILE_12)",
+      "filePath": ".github/prompts/.propagation/fix_infra_and_audit.sh",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/fix_infra_and_audit.sh",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_13",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_13)",
+      "filePath": ".github/prompts/.propagation/generate-report.js"
+    },
+    {
+      "name": "write_13",
+      "type": "WriteToFile",
+      "source": "$(FILE_13)",
+      "filePath": ".github/prompts/.propagation/generate-report.js",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/generate-report.js",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_14",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_14)",
+      "filePath": ".github/prompts/.propagation/github-mcp-reference-card.md"
+    },
+    {
+      "name": "write_14",
+      "type": "WriteToFile",
+      "source": "$(FILE_14)",
+      "filePath": ".github/prompts/.propagation/github-mcp-reference-card.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/github-mcp-reference-card.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_15",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_15)",
+      "filePath": ".github/prompts/.propagation/infra-eval-template.json"
+    },
+    {
+      "name": "write_15",
+      "type": "WriteToFile",
+      "source": "$(FILE_15)",
+      "filePath": ".github/prompts/.propagation/infra-eval-template.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/infra-eval-template.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_16",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_16)",
+      "filePath": ".github/prompts/.propagation/integrate-discovery.js"
+    },
+    {
+      "name": "write_16",
+      "type": "WriteToFile",
+      "source": "$(FILE_16)",
+      "filePath": ".github/prompts/.propagation/integrate-discovery.js",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/integrate-discovery.js",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_17",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_17)",
+      "filePath": ".github/prompts/.propagation/package.json"
+    },
+    {
+      "name": "write_17",
+      "type": "WriteToFile",
+      "source": "$(FILE_17)",
+      "filePath": ".github/prompts/.propagation/package.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/package.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_18",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_18)",
+      "filePath": ".github/prompts/.propagation/propagation-execution-2025-08-10.md"
+    },
+    {
+      "name": "write_18",
+      "type": "WriteToFile",
+      "source": "$(FILE_18)",
+      "filePath": ".github/prompts/.propagation/propagation-execution-2025-08-10.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/propagation-execution-2025-08-10.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_19",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_19)",
+      "filePath": ".github/prompts/.propagation/propagation-final-report.md"
+    },
+    {
+      "name": "write_19",
+      "type": "WriteToFile",
+      "source": "$(FILE_19)",
+      "filePath": ".github/prompts/.propagation/propagation-final-report.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/propagation-final-report.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_20",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_20)",
+      "filePath": ".github/prompts/.propagation/propagation-status-report.html"
+    },
+    {
+      "name": "write_20",
+      "type": "WriteToFile",
+      "source": "$(FILE_20)",
+      "filePath": ".github/prompts/.propagation/propagation-status-report.html",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/propagation-status-report.html",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_21",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_21)",
+      "filePath": ".github/prompts/.propagation/propagation-status-report.md"
+    },
+    {
+      "name": "write_21",
+      "type": "WriteToFile",
+      "source": "$(FILE_21)",
+      "filePath": ".github/prompts/.propagation/propagation-status-report.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/propagation-status-report.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_22",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_22)",
+      "filePath": ".github/prompts/.propagation/propagation.targets.json"
+    },
+    {
+      "name": "write_22",
+      "type": "WriteToFile",
+      "source": "$(FILE_22)",
+      "filePath": ".github/prompts/.propagation/propagation.targets.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/propagation.targets.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_23",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_23)",
+      "filePath": ".github/prompts/.propagation/update-pr-statuses.js"
+    },
+    {
+      "name": "write_23",
+      "type": "WriteToFile",
+      "source": "$(FILE_23)",
+      "filePath": ".github/prompts/.propagation/update-pr-statuses.js",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/update-pr-statuses.js",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_24",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_24)",
+      "filePath": ".github/prompts/.propagation/update-single-repo.js"
+    },
+    {
+      "name": "write_24",
+      "type": "WriteToFile",
+      "source": "$(FILE_24)",
+      "filePath": ".github/prompts/.propagation/update-single-repo.js",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/update-single-repo.js",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_25",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_25)",
+      "filePath": ".github/prompts/.propagation/update-targets.js"
+    },
+    {
+      "name": "write_25",
+      "type": "WriteToFile",
+      "source": "$(FILE_25)",
+      "filePath": ".github/prompts/.propagation/update-targets.js",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/update-targets.js",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_26",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_26)",
+      "filePath": ".github/prompts/.propagation/workflow-lessons-learned.md"
+    },
+    {
+      "name": "write_26",
+      "type": "WriteToFile",
+      "source": "$(FILE_26)",
+      "filePath": ".github/prompts/.propagation/workflow-lessons-learned.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/.propagation/workflow-lessons-learned.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_27",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_27)",
+      "filePath": ".github/prompts/BATCH_PROPAGATION_GUIDE.md"
+    },
+    {
+      "name": "write_27",
+      "type": "WriteToFile",
+      "source": "$(FILE_27)",
+      "filePath": ".github/prompts/BATCH_PROPAGATION_GUIDE.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/BATCH_PROPAGATION_GUIDE.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_28",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_28)",
+      "filePath": ".github/prompts/PR-Propagation-Batch-Spec.md"
+    },
+    {
+      "name": "write_28",
+      "type": "WriteToFile",
+      "source": "$(FILE_28)",
+      "filePath": ".github/prompts/PR-Propagation-Batch-Spec.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/PR-Propagation-Batch-Spec.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_29",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_29)",
+      "filePath": ".github/prompts/PROPAGATION_INSTRUCTIONS.md"
+    },
+    {
+      "name": "write_29",
+      "type": "WriteToFile",
+      "source": "$(FILE_29)",
+      "filePath": ".github/prompts/PROPAGATION_INSTRUCTIONS.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/PROPAGATION_INSTRUCTIONS.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_30",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_30)",
+      "filePath": ".github/prompts/PROPAGATION_PROMPT.md"
+    },
+    {
+      "name": "write_30",
+      "type": "WriteToFile",
+      "source": "$(FILE_30)",
+      "filePath": ".github/prompts/PROPAGATION_PROMPT.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/PROPAGATION_PROMPT.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_31",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_31)",
+      "filePath": ".github/prompts/README.md"
+    },
+    {
+      "name": "write_31",
+      "type": "WriteToFile",
+      "source": "$(FILE_31)",
+      "filePath": ".github/prompts/README.md",
+      "continueOnError": false,
+      "errorText": "Unable to write .github/prompts/README.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_32",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_32)",
+      "filePath": ".gitignore"
+    },
+    {
+      "name": "write_32",
+      "type": "WriteToFile",
+      "source": "$(FILE_32)",
+      "filePath": ".gitignore",
+      "continueOnError": false,
+      "errorText": "Unable to write .gitignore",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_33",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_33)",
+      "filePath": ".vscode/extensions.json"
+    },
+    {
+      "name": "write_33",
+      "type": "WriteToFile",
+      "source": "$(FILE_33)",
+      "filePath": ".vscode/extensions.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .vscode/extensions.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_34",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_34)",
+      "filePath": ".vscode/launch.json"
+    },
+    {
+      "name": "write_34",
+      "type": "WriteToFile",
+      "source": "$(FILE_34)",
+      "filePath": ".vscode/launch.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .vscode/launch.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_35",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_35)",
+      "filePath": ".vscode/settings.json"
+    },
+    {
+      "name": "write_35",
+      "type": "WriteToFile",
+      "source": "$(FILE_35)",
+      "filePath": ".vscode/settings.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .vscode/settings.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_36",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_36)",
+      "filePath": ".vscode/tasks.json"
+    },
+    {
+      "name": "write_36",
+      "type": "WriteToFile",
+      "source": "$(FILE_36)",
+      "filePath": ".vscode/tasks.json",
+      "continueOnError": false,
+      "errorText": "Unable to write .vscode/tasks.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_37",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_37)",
+      "filePath": "CHANGELOG.md"
+    },
+    {
+      "name": "write_37",
+      "type": "WriteToFile",
+      "source": "$(FILE_37)",
+      "filePath": "CHANGELOG.md",
+      "continueOnError": false,
+      "errorText": "Unable to write CHANGELOG.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_38",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_38)",
+      "filePath": "CONTRIBUTING.md"
+    },
+    {
+      "name": "write_38",
+      "type": "WriteToFile",
+      "source": "$(FILE_38)",
+      "filePath": "CONTRIBUTING.md",
+      "continueOnError": false,
+      "errorText": "Unable to write CONTRIBUTING.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_39",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_39)",
+      "filePath": "LICENSE.md"
+    },
+    {
+      "name": "write_39",
+      "type": "WriteToFile",
+      "source": "$(FILE_39)",
+      "filePath": "LICENSE.md",
+      "continueOnError": false,
+      "errorText": "Unable to write LICENSE.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_40",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_40)",
+      "filePath": "README.md"
+    },
+    {
+      "name": "write_40",
+      "type": "WriteToFile",
+      "source": "$(FILE_40)",
+      "filePath": "README.md",
+      "continueOnError": false,
+      "errorText": "Unable to write README.md",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_41",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_41)",
+      "filePath": "azure.yaml"
+    },
+    {
+      "name": "write_41",
+      "type": "WriteToFile",
+      "source": "$(FILE_41)",
+      "filePath": "azure.yaml",
+      "continueOnError": false,
+      "errorText": "Unable to write azure.yaml",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_42",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_42)",
+      "filePath": "http.sln"
+    },
+    {
+      "name": "write_42",
+      "type": "WriteToFile",
+      "source": "$(FILE_42)",
+      "filePath": "http.sln",
+      "continueOnError": false,
+      "errorText": "Unable to write http.sln",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_43",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_43)",
+      "filePath": "http/.gitignore"
+    },
+    {
+      "name": "write_43",
+      "type": "WriteToFile",
+      "source": "$(FILE_43)",
+      "filePath": "http/.gitignore",
+      "continueOnError": false,
+      "errorText": "Unable to write http/.gitignore",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_44",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_44)",
+      "filePath": "http/Program.cs"
+    },
+    {
+      "name": "write_44",
+      "type": "WriteToFile",
+      "source": "$(FILE_44)",
+      "filePath": "http/Program.cs",
+      "continueOnError": false,
+      "errorText": "Unable to write http/Program.cs",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_45",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_45)",
+      "filePath": "http/Properties/launchSettings.json"
+    },
+    {
+      "name": "write_45",
+      "type": "WriteToFile",
+      "source": "$(FILE_45)",
+      "filePath": "http/Properties/launchSettings.json",
+      "continueOnError": false,
+      "errorText": "Unable to write http/Properties/launchSettings.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_46",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_46)",
+      "filePath": "http/Properties/serviceDependencies.json"
+    },
+    {
+      "name": "write_46",
+      "type": "WriteToFile",
+      "source": "$(FILE_46)",
+      "filePath": "http/Properties/serviceDependencies.json",
+      "continueOnError": false,
+      "errorText": "Unable to write http/Properties/serviceDependencies.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_47",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_47)",
+      "filePath": "http/Properties/serviceDependencies.local.json"
+    },
+    {
+      "name": "write_47",
+      "type": "WriteToFile",
+      "source": "$(FILE_47)",
+      "filePath": "http/Properties/serviceDependencies.local.json",
+      "continueOnError": false,
+      "errorText": "Unable to write http/Properties/serviceDependencies.local.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_48",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_48)",
+      "filePath": "http/host.json"
+    },
+    {
+      "name": "write_48",
+      "type": "WriteToFile",
+      "source": "$(FILE_48)",
+      "filePath": "http/host.json",
+      "continueOnError": false,
+      "errorText": "Unable to write http/host.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_49",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_49)",
+      "filePath": "http/http.csproj"
+    },
+    {
+      "name": "write_49",
+      "type": "WriteToFile",
+      "source": "$(FILE_49)",
+      "filePath": "http/http.csproj",
+      "continueOnError": false,
+      "errorText": "Unable to write http/http.csproj",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_50",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_50)",
+      "filePath": "http/httpGetFunction.cs"
+    },
+    {
+      "name": "write_50",
+      "type": "WriteToFile",
+      "source": "$(FILE_50)",
+      "filePath": "http/httpGetFunction.cs",
+      "continueOnError": false,
+      "errorText": "Unable to write http/httpGetFunction.cs",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_51",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_51)",
+      "filePath": "http/httpPostBodyFunction.cs"
+    },
+    {
+      "name": "write_51",
+      "type": "WriteToFile",
+      "source": "$(FILE_51)",
+      "filePath": "http/httpPostBodyFunction.cs",
+      "continueOnError": false,
+      "errorText": "Unable to write http/httpPostBodyFunction.cs",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_52",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_52)",
+      "filePath": "http/local.settings.json"
+    },
+    {
+      "name": "write_52",
+      "type": "WriteToFile",
+      "source": "$(FILE_52)",
+      "filePath": "http/local.settings.json",
+      "continueOnError": false,
+      "errorText": "Unable to write http/local.settings.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_53",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_53)",
+      "filePath": "http/test.http"
+    },
+    {
+      "name": "write_53",
+      "type": "WriteToFile",
+      "source": "$(FILE_53)",
+      "filePath": "http/test.http",
+      "continueOnError": false,
+      "errorText": "Unable to write http/test.http",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_54",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_54)",
+      "filePath": "http/testdata.json"
+    },
+    {
+      "name": "write_54",
+      "type": "WriteToFile",
+      "source": "$(FILE_54)",
+      "filePath": "http/testdata.json",
+      "continueOnError": false,
+      "errorText": "Unable to write http/testdata.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_55",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_55)",
+      "filePath": "infra/abbreviations.json"
+    },
+    {
+      "name": "write_55",
+      "type": "WriteToFile",
+      "source": "$(FILE_55)",
+      "filePath": "infra/abbreviations.json",
+      "continueOnError": false,
+      "errorText": "Unable to write infra/abbreviations.json",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_56",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_56)",
+      "filePath": "infra/app/api.bicep"
+    },
+    {
+      "name": "write_56",
+      "type": "WriteToFile",
+      "source": "$(FILE_56)",
+      "filePath": "infra/app/api.bicep",
+      "continueOnError": false,
+      "errorText": "Unable to write infra/app/api.bicep",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_57",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_57)",
+      "filePath": "infra/app/rbac.bicep"
+    },
+    {
+      "name": "write_57",
+      "type": "WriteToFile",
+      "source": "$(FILE_57)",
+      "filePath": "infra/app/rbac.bicep",
+      "continueOnError": false,
+      "errorText": "Unable to write infra/app/rbac.bicep",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_58",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_58)",
+      "filePath": "infra/app/storage-PrivateEndpoint.bicep"
+    },
+    {
+      "name": "write_58",
+      "type": "WriteToFile",
+      "source": "$(FILE_58)",
+      "filePath": "infra/app/storage-PrivateEndpoint.bicep",
+      "continueOnError": false,
+      "errorText": "Unable to write infra/app/storage-PrivateEndpoint.bicep",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_59",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_59)",
+      "filePath": "infra/app/vnet.bicep"
+    },
+    {
+      "name": "write_59",
+      "type": "WriteToFile",
+      "source": "$(FILE_59)",
+      "filePath": "infra/app/vnet.bicep",
+      "continueOnError": false,
+      "errorText": "Unable to write infra/app/vnet.bicep",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_60",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_60)",
+      "filePath": "infra/main.bicep"
+    },
+    {
+      "name": "write_60",
+      "type": "WriteToFile",
+      "source": "$(FILE_60)",
+      "filePath": "infra/main.bicep",
+      "continueOnError": false,
+      "errorText": "Unable to write infra/main.bicep",
+      "replaceTokens": false
+    },
+    {
+      "name": "read_61",
+      "type": "GetTemplateFileContent",
+      "assignTo": "$(FILE_61)",
+      "filePath": "infra/main.parameters.json"
+    },
+    {
+      "name": "write_61",
+      "type": "WriteToFile",
+      "source": "$(FILE_61)",
+      "filePath": "infra/main.parameters.json",
+      "continueOnError": false,
+      "errorText": "Unable to write infra/main.parameters.json",
+      "replaceTokens": false
+    }
+  ],
+  "id": "FunctionsQuickstart-DotNetAzd"
+}
