@@ -24,6 +24,8 @@ The rest is boilerplate that the template author should not have to maintain.
 
 Create a small convention based template tool that starts from a normal runnable repo and applies targeted transformations.
 
+The long term target is Azure Functions templates across the supported programming languages. The prototype starts with .NET and .NET 10 because this repo already provides a concrete baseline.
+
 The repo remains valid before templating:
 
 ```pwsh
@@ -54,6 +56,55 @@ No `template.json` is required for the happy path.
 6. Treat `infra` as already parameterized unless a value is explicitly hinted.
 7. Show the user a plan before applying changes.
 8. Make the result buildable with normal .NET and AZD commands.
+
+## Scope
+
+### Phase 1: .NET 10 Azure Functions
+
+Use this fork as the prototype baseline.
+
+Support:
+
+- .NET isolated worker
+- .NET 10
+- C# source files
+- `.sln`
+- `.csproj`
+- `Program.cs`
+- Azure Functions trigger files
+- `azure.yaml`
+- existing AZD `infra` parameterization
+
+### Later phases: Azure Functions languages
+
+Extend the same convention based approach across the Azure Functions programming languages.
+
+TODO:
+
+- JavaScript
+- TypeScript
+- Python
+- Java
+- PowerShell
+- Custom handlers
+- Other supported Azure Functions language stacks that need template coverage
+
+Each language should get its own small convention pack instead of adding a large shared manifest. For example, JavaScript and TypeScript conventions would inspect `package.json`, source entry points, function folders, and host configuration. Python conventions would inspect `requirements.txt`, function folders, and module names. Java conventions would inspect Maven or Gradle project files, package names, and function classes.
+
+### Later phases: other VS Code template engine template types
+
+This POC starts with Azure Functions new app templates. It should not be limited to Functions forever.
+
+TODO:
+
+- Other VS Code template engine template types
+- Existing `func.exe` template scenarios beyond Functions quickstarts
+- Multi-project templates
+- Templates that create only one file
+- Templates that add a function to an existing app
+- Templates that add configuration or deployment assets to an existing project
+
+The same rule should apply: use conventions and local hints first, and only introduce structured metadata when the template cannot be represented safely any other way.
 
 ## File Selection Rules
 
@@ -123,7 +174,7 @@ This output is for review and debugging. It is not intended to become a maintain
 
 ## Transformations
 
-For the first POC, support:
+For the first .NET 10 POC, support:
 
 1. Rename the project folder from `http` to the requested project name.
 2. Rename `http.csproj` to the requested project name.
@@ -171,7 +222,7 @@ The POC succeeds if:
 
 ## First Implementation Slice
 
-Build a small .NET console tool under `tools\TemplatePoc`.
+Build a small .NET 10 console tool under `tools\TemplatePoc`.
 
 The first slice should implement:
 
