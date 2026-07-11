@@ -223,7 +223,7 @@ The POC succeeds if:
 
 ## First Implementation Slice
 
-Build a small .NET 10 console tool under `tools\TemplatePoc`.
+Build a small .NET 10 console tool under `template-tool`.
 
 The first slice should implement:
 
