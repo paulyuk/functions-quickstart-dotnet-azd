@@ -68,23 +68,23 @@ macOS or Linux:
   --namespace Contoso.MyFunctionApp
 ```
 
-Open the generated app:
+Test generated app:
 
 Windows:
 
 ```pwsh
 cd .\out\MyFunctionApp
-dotnet build
-azd up
+func start
 ```
 
 macOS or Linux:
 
 ```bash
 cd ./out/MyFunctionApp
-dotnet build
-azd up
+func start
 ```
+
+`dotnet build` also works if you only want to compile the generated app.
 
 ## Most common scenarios
 
