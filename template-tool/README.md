@@ -20,7 +20,19 @@ dotnet publish .\template-tool\TemplatePoc.csproj `
   --output .\template-tool\dist
 ```
 
-macOS or Linux:
+macOS on Apple Silicon:
+
+```bash
+dotnet publish ./template-tool/TemplatePoc.csproj \
+  --configuration Release \
+  --runtime osx-arm64 \
+  --self-contained true \
+  -p:PublishSingleFile=true \
+  -p:PublishTrimmed=false \
+  --output ./template-tool/dist
+```
+
+Linux:
 
 ```bash
 dotnet publish ./template-tool/TemplatePoc.csproj \
@@ -32,7 +44,7 @@ dotnet publish ./template-tool/TemplatePoc.csproj \
   --output ./template-tool/dist
 ```
 
-Use `osx-arm64`, `osx-x64`, `linux-arm64`, or `linux-x64` for your machine.
+Use `osx-x64` for Intel Macs, or `linux-arm64` for Linux on Arm64.
 
 Then create an app from the short AZD template name:
 
