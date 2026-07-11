@@ -89,6 +89,32 @@ The plan is meant to be readable by a human before using `apply`.
 9. Updates the launch profile name when it matches the old project identity.
 10. Runs `dotnet build` in the generated output folder.
 
+## Performance considerations
+
+The prototype is fast because it does not try to interpret every file as a template.
+
+The main performance choices are:
+
+- It starts from a small set of likely files: `.sln`, `.csproj`, C# files, `azure.yaml`, and `launchSettings.json`.
+- It skips generated folders like `bin`, `obj`, and `out`.
+- It skips the tool folder.
+- It does not scan docs for token replacement.
+- It does not scan `infra` for token replacement because AZD already parameterizes it.
+- Remote sources use `git clone --depth 1` so the tool does not download full history.
+
+For this repo, the expensive step is usually not detection or replacement. It is cloning a remote source and running `dotnet build`.
+
+Things to watch as the tool grows:
+
+- Do not add whole-repo text replacement by default.
+- Keep each language pack scoped to the files that matter for that language.
+- Prefer exact conventions over broad regex searches.
+- Keep generated folders excluded.
+- Add caching only if remote clone time becomes a real problem.
+- Keep `apply` writing to a new output folder so the tool does not need expensive rollback logic.
+
+The intended model is small targeted inspection, then small targeted edits.
+
 ## Excluded folders
 
 The copy and scan logic skips generated and tool folders:
