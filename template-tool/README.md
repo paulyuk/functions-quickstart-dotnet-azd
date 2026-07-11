@@ -6,7 +6,7 @@ This first prototype targets the .NET 10 Azure Functions quickstart.
 
 ## Quickstart
 
-From this repo root, publish the standalone tool.
+From this repo root, build/publish the standalone tool.
 
 Windows:
 
