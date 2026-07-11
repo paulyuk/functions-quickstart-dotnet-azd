@@ -201,6 +201,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+out/
 template-tool/dist/
 orleans.codegen.cs
 

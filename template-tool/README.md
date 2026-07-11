@@ -6,7 +6,9 @@ This first prototype targets the .NET 10 Azure Functions quickstart.
 
 ## Quickstart
 
-From this repo root, publish a standalone Windows exe:
+From this repo root, publish the standalone tool.
+
+Windows:
 
 ```pwsh
 dotnet publish .\template-tool\TemplatePoc.csproj `
@@ -18,7 +20,23 @@ dotnet publish .\template-tool\TemplatePoc.csproj `
   --output .\template-tool\dist
 ```
 
+macOS or Linux:
+
+```bash
+dotnet publish ./template-tool/TemplatePoc.csproj \
+  --configuration Release \
+  --runtime linux-x64 \
+  --self-contained true \
+  -p:PublishSingleFile=true \
+  -p:PublishTrimmed=false \
+  --output ./template-tool/dist
+```
+
+Use `osx-arm64`, `osx-x64`, `linux-arm64`, or `linux-x64` for your machine.
+
 Then create an app from the short AZD template name:
+
+Windows:
 
 ```pwsh
 .\template-tool\dist\template-tool.exe apply `
@@ -28,10 +46,30 @@ Then create an app from the short AZD template name:
   --namespace Contoso.MyFunctionApp
 ```
 
+macOS or Linux:
+
+```bash
+./template-tool/dist/template-tool apply \
+  --source functions-quickstart-dotnet-azd \
+  --output ./out/MyFunctionApp \
+  --name MyFunctionApp \
+  --namespace Contoso.MyFunctionApp
+```
+
 Open the generated app:
+
+Windows:
 
 ```pwsh
 cd .\out\MyFunctionApp
+dotnet build
+azd up
+```
+
+macOS or Linux:
+
+```bash
+cd ./out/MyFunctionApp
 dotnet build
 azd up
 ```
@@ -49,6 +87,8 @@ Use this when you know the Azure Samples template name.
   --name MyFunctionApp `
   --namespace Contoso.MyFunctionApp
 ```
+
+On macOS or Linux, use `./template-tool/dist/template-tool` and forward slash paths.
 
 The tool treats this source:
 
@@ -93,6 +133,7 @@ Use this when you already cloned or edited the template locally.
 ```pwsh
 --source .
 --source C:\src\functions-quickstart-dotnet-azd
+--source ./functions-quickstart-dotnet-azd
 --source https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git
 --source Azure-Samples/functions-quickstart-dotnet-azd
 --source functions-quickstart-dotnet-azd
