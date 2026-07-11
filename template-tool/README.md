@@ -30,12 +30,39 @@ From the repo root:
 dotnet build .\template-tool\TemplatePoc.csproj
 ```
 
-## Analyze an existing template folder
+## Source can be a folder, GitHub repo, or template name
 
-Run this against any existing folder that contains the AZD template or project.
+Use any of these forms for `--source`:
+
+```pwsh
+--source .
+--source C:\src\functions-quickstart-dotnet-azd
+--source https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git
+--source Azure-Samples/functions-quickstart-dotnet-azd
+--source functions-quickstart-dotnet-azd
+```
+
+When `--source` is a GitHub URL, the tool clones it to a temporary folder first.
+
+When `--source` is just a template name like `functions-quickstart-dotnet-azd`, the tool treats it as an Azure Samples repo:
+
+```text
+https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git
+```
+
+## Analyze an existing template
+
+Run this against any existing folder, GitHub repo, or Azure Samples template name that contains the AZD template or project.
 
 ```pwsh
 dotnet run --project .\template-tool\TemplatePoc.csproj -- analyze --source .
+```
+
+Same command against the Azure Samples template name:
+
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- analyze `
+  --source functions-quickstart-dotnet-azd
 ```
 
 Example output:
@@ -75,6 +102,26 @@ Use `apply` to copy the source folder, customize the copy, and build it.
 ```pwsh
 dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
   --source . `
+  --output .\out\MyFunctionApp `
+  --name MyFunctionApp `
+  --namespace Contoso.MyFunctionApp
+```
+
+Same flow starting from a GitHub repo URL:
+
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+  --source https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git `
+  --output .\out\MyFunctionApp `
+  --name MyFunctionApp `
+  --namespace Contoso.MyFunctionApp
+```
+
+Same flow starting from the short AZD template name:
+
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+  --source functions-quickstart-dotnet-azd `
   --output .\out\MyFunctionApp `
   --name MyFunctionApp `
   --namespace Contoso.MyFunctionApp

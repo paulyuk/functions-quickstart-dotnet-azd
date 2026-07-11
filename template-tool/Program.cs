@@ -25,13 +25,13 @@ internal static class TemplatePoc
         {
             var command = args[0].ToLowerInvariant();
             var options = ParseOptions(args.Skip(1).ToArray());
-            var sourcePath = GetPathOption(options, "source", Directory.GetCurrentDirectory());
+            using var source = ResolveSource(GetOption(options, "source", Directory.GetCurrentDirectory()));
 
             return command switch
             {
-                "analyze" => AnalyzeCommand(sourcePath),
-                "plan" => PlanCommand(sourcePath, options),
-                "apply" => ApplyCommand(sourcePath, options),
+                "analyze" => AnalyzeCommand(source.Path),
+                "plan" => PlanCommand(source.Path, options),
+                "apply" => ApplyCommand(source.Path, options),
                 _ => Fail($"Unknown command '{args[0]}'.")
             };
         }
@@ -403,14 +403,24 @@ internal static class TemplatePoc
 
     private static DotNetBuildResult RunDotNetBuild(string outputPath)
     {
-        var startInfo = new ProcessStartInfo("dotnet", "build --nologo")
+        return RunProcess("dotnet", ["build", "--nologo"], outputPath);
+    }
+
+    private static DotNetBuildResult RunProcess(string fileName, IReadOnlyList<string> arguments, string workingDirectory)
+    {
+        var startInfo = new ProcessStartInfo(fileName)
         {
-            WorkingDirectory = outputPath,
+            WorkingDirectory = workingDirectory,
             RedirectStandardOutput = true,
             RedirectStandardError = true
         };
 
-        using var process = Process.Start(startInfo) ?? throw new TemplatePocException("Failed to start dotnet build.");
+        foreach (var argument in arguments)
+        {
+            startInfo.ArgumentList.Add(argument);
+        }
+
+        using var process = Process.Start(startInfo) ?? throw new TemplatePocException($"Failed to start {fileName}.");
         var standardOutput = process.StandardOutput.ReadToEnd();
         var standardError = process.StandardError.ReadToEnd();
         process.WaitForExit();
@@ -441,6 +451,62 @@ internal static class TemplatePoc
             Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
             File.Copy(file, destination);
         }
+    }
+
+    private static ResolvedSource ResolveSource(string source)
+    {
+        source = string.IsNullOrWhiteSpace(source) ? Directory.GetCurrentDirectory() : source.Trim();
+
+        if (Directory.Exists(source))
+        {
+            return new ResolvedSource(Path.GetFullPath(source), null);
+        }
+
+        var cloneUrl = GetCloneUrl(source);
+        if (cloneUrl is null)
+        {
+            throw new TemplatePocException($"Source is not a folder, GitHub URL, owner/repo shorthand, or Azure Samples template name: {source}");
+        }
+
+        var tempRoot = Path.Combine(Path.GetTempPath(), $"template-poc-{Guid.NewGuid():N}");
+        var clonePath = Path.Combine(tempRoot, "source");
+        Directory.CreateDirectory(tempRoot);
+
+        var result = RunProcess("git", ["clone", "--depth", "1", cloneUrl, clonePath], Directory.GetCurrentDirectory());
+        if (result.ExitCode != 0)
+        {
+            TryDeleteDirectory(tempRoot);
+            throw new TemplatePocException($"Failed to clone source '{source}' from '{cloneUrl}'.\n{result.StandardError}");
+        }
+
+        return new ResolvedSource(clonePath, tempRoot);
+    }
+
+    private static string? GetCloneUrl(string source)
+    {
+        if (Uri.TryCreate(source, UriKind.Absolute, out var uri) &&
+            (uri.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase) ||
+             uri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase)))
+        {
+            return source;
+        }
+
+        if (source.StartsWith("git@github.com:", StringComparison.OrdinalIgnoreCase))
+        {
+            return source;
+        }
+
+        if (Regex.IsMatch(source, @"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"))
+        {
+            return $"https://github.com/{source}.git";
+        }
+
+        if (Regex.IsMatch(source, @"^[A-Za-z0-9_.-]+$"))
+        {
+            return $"https://github.com/Azure-Samples/{source}.git";
+        }
+
+        return null;
     }
 
     private static IEnumerable<string> GetCSharpFiles(string sourcePath, string? projectFolder)
@@ -527,11 +593,6 @@ internal static class TemplatePoc
         return value;
     }
 
-    private static string GetPathOption(Dictionary<string, string> options, string name, string defaultValue)
-    {
-        return Path.GetFullPath(options.TryGetValue(name, out var value) ? value : defaultValue);
-    }
-
     private static string GetOption(Dictionary<string, string> options, string name, string defaultValue)
     {
         return options.TryGetValue(name, out var value) ? value : defaultValue;
@@ -576,6 +637,36 @@ internal static class TemplatePoc
     private static bool StringEquals(string left, string right)
     {
         return string.Equals(left, right, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static void TryDeleteDirectory(string path)
+    {
+        try
+        {
+            if (Directory.Exists(path))
+            {
+                foreach (var file in Directory.GetFiles(path, "*", SearchOption.AllDirectories))
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                }
+
+                foreach (var directory in Directory.GetDirectories(path, "*", SearchOption.AllDirectories))
+                {
+                    File.SetAttributes(directory, FileAttributes.Normal);
+                }
+
+                Directory.Delete(path, recursive: true);
+            }
+        }
+        catch
+        {
+            Console.Error.WriteLine($"Warning: unable to delete temporary folder '{path}'.");
+        }
+    }
+
+    internal static void DeleteTemporarySource(string path)
+    {
+        TryDeleteDirectory(path);
     }
 
     private static void WriteJson<T>(T value)
@@ -628,5 +719,16 @@ internal sealed record TemplatePlan(TemplateAnalysis Analysis, RequestedValues R
 internal sealed record DotNetBuildResult(int ExitCode, string StandardOutput, string StandardError);
 
 internal sealed record ApplyResult(string OutputPath, TemplatePlan Plan, DotNetBuildResult Build);
+
+internal sealed record ResolvedSource(string Path, string? TemporaryRoot) : IDisposable
+{
+    public void Dispose()
+    {
+        if (TemporaryRoot is not null)
+        {
+            TemplatePoc.DeleteTemporarySource(TemporaryRoot);
+        }
+    }
+}
 
 internal sealed class TemplatePocException(string message) : Exception(message);
