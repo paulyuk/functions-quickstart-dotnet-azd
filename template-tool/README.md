@@ -1,38 +1,88 @@
 # Template Tool POC
 
-Turn an existing runnable AZD template folder into a customized app without writing or maintaining `template.json`.
+Create a customized app from a runnable AZD template without writing or maintaining `template.json`.
 
-This first prototype targets the .NET 10 Azure Functions quickstart in this repo.
+This first prototype targets the .NET 10 Azure Functions quickstart.
 
-## What it does
+## Quickstart
 
-Given a source folder, the tool can:
-
-- find the .NET project name
-- find the project folder and `.csproj`
-- find the `.sln`
-- find the C# namespace
-- find Azure Functions names
-- find the `azure.yaml` app name
-- copy the source to a new output folder
-- rename the project folder and `.csproj`
-- update the solution file
-- update C# namespaces
-- update `azure.yaml`
-- update the launch profile when it matches the old project identity
-- run `dotnet build` on the generated result
-
-## Build the tool
-
-From the repo root:
+From this repo root, build the tool:
 
 ```pwsh
 dotnet build .\template-tool\TemplatePoc.csproj
 ```
 
-## Source can be a folder, GitHub repo, or template name
+Then create an app from the short AZD template name:
 
-Use any of these forms for `--source`:
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+  --source functions-quickstart-dotnet-azd `
+  --output .\out\MyFunctionApp `
+  --name MyFunctionApp `
+  --namespace Contoso.MyFunctionApp
+```
+
+Open the generated app:
+
+```pwsh
+cd .\out\MyFunctionApp
+dotnet build
+azd up
+```
+
+## Most common scenarios
+
+### 1. Create from an AZD template name
+
+Use this when you know the Azure Samples template name.
+
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+  --source functions-quickstart-dotnet-azd `
+  --output .\out\MyFunctionApp `
+  --name MyFunctionApp `
+  --namespace Contoso.MyFunctionApp
+```
+
+The tool treats this source:
+
+```text
+functions-quickstart-dotnet-azd
+```
+
+as this repo:
+
+```text
+https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git
+```
+
+### 2. Create from a GitHub repo URL
+
+Use this when the template is in a repo you can clone.
+
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+  --source https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git `
+  --output .\out\MyFunctionApp `
+  --name MyFunctionApp `
+  --namespace Contoso.MyFunctionApp
+```
+
+### 3. Create from a local folder
+
+Use this when you already cloned or edited the template locally.
+
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+  --source C:\src\functions-quickstart-dotnet-azd `
+  --output .\out\MyFunctionApp `
+  --name MyFunctionApp `
+  --namespace Contoso.MyFunctionApp
+```
+
+## Source formats
+
+`--source` can be any of these:
 
 ```pwsh
 --source .
@@ -42,23 +92,13 @@ Use any of these forms for `--source`:
 --source functions-quickstart-dotnet-azd
 ```
 
-When `--source` is a GitHub URL, the tool clones it to a temporary folder first.
+GitHub sources are cloned to a temporary folder before the tool reads them.
 
-When `--source` is just a template name like `functions-quickstart-dotnet-azd`, the tool treats it as an Azure Samples repo:
+## Other modes
 
-```text
-https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git
-```
+### Analyze
 
-## Analyze an existing template
-
-Run this against any existing folder, GitHub repo, or Azure Samples template name that contains the AZD template or project.
-
-```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- analyze --source .
-```
-
-Same command against the Azure Samples template name:
+Use `analyze` to see what the tool detects without planning or writing changes.
 
 ```pwsh
 dotnet run --project .\template-tool\TemplatePoc.csproj -- analyze `
@@ -82,42 +122,20 @@ Example output:
 }
 ```
 
-## Preview what will change
+### Plan
 
-Use `plan` before writing anything.
+Use `plan` to preview the files and values that would change.
 
 ```pwsh
 dotnet run --project .\template-tool\TemplatePoc.csproj -- plan `
-  --source . `
+  --source functions-quickstart-dotnet-azd `
   --name MyFunctionApp `
   --namespace Contoso.MyFunctionApp
 ```
 
-The tool prints the detected values and the files it would change.
+### Apply
 
-## Generate the customized result
-
-Use `apply` to copy the source folder, customize the copy, and build it.
-
-```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
-  --source . `
-  --output .\out\MyFunctionApp `
-  --name MyFunctionApp `
-  --namespace Contoso.MyFunctionApp
-```
-
-Same flow starting from a GitHub repo URL:
-
-```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
-  --source https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git `
-  --output .\out\MyFunctionApp `
-  --name MyFunctionApp `
-  --namespace Contoso.MyFunctionApp
-```
-
-Same flow starting from the short AZD template name:
+Use `apply` to copy the source, customize the copy, and run `dotnet build`.
 
 ```pwsh
 dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
@@ -127,47 +145,16 @@ dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
   --namespace Contoso.MyFunctionApp
 ```
 
-When this succeeds, the generated app is here:
+## Options
 
-```pwsh
-.\out\MyFunctionApp
-```
+| Option | Required | Description |
+| --- | --- | --- |
+| `--source` | No | Template source. Defaults to the current folder. |
+| `--output` | Yes for `apply` | Generated app folder. Must not already exist. |
+| `--name` | Yes for `plan` and `apply` | New project and app name. |
+| `--namespace` | Yes for `plan` and `apply` | New C# namespace. |
+| `--azd-name` | No | Value for `azure.yaml` `name`. Defaults to kebab-case from `--name`. |
 
-You can open it, build it, or run AZD from that folder:
+## Advanced
 
-```pwsh
-cd .\out\MyFunctionApp
-dotnet build
-azd up
-```
-
-## Optional AZD name
-
-By default, `MyFunctionApp` becomes this AZD app name:
-
-```text
-my-function-app
-```
-
-Pass `--azd-name` if you want a different value in `azure.yaml`.
-
-```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
-  --source . `
-  --output .\out\MyFunctionApp `
-  --name MyFunctionApp `
-  --namespace Contoso.MyFunctionApp `
-  --azd-name contoso-functions-demo
-```
-
-## Current limits
-
-This is intentionally small.
-
-- .NET 10 Azure Functions only for now
-- no large manifest
-- no `template.json`
-- no README tokenization
-- no `infra` tokenization unless a later phase adds explicit hints
-
-The point of the POC is to prove the common path can be convention based and stay easy to explain.
+Read [HOW_IT_WORKS.md](./HOW_IT_WORKS.md) for detection rules, transformations, current limits, and why the POC avoids `template.json`.
