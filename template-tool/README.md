@@ -6,16 +6,22 @@ This first prototype targets the .NET 10 Azure Functions quickstart.
 
 ## Quickstart
 
-From this repo root, build the tool:
+From this repo root, publish a standalone Windows exe:
 
 ```pwsh
-dotnet build .\template-tool\TemplatePoc.csproj
+dotnet publish .\template-tool\TemplatePoc.csproj `
+  --configuration Release `
+  --runtime win-x64 `
+  --self-contained true `
+  -p:PublishSingleFile=true `
+  -p:PublishTrimmed=false `
+  --output .\template-tool\dist
 ```
 
 Then create an app from the short AZD template name:
 
 ```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+.\template-tool\dist\template-tool.exe apply `
   --source functions-quickstart-dotnet-azd `
   --output .\out\MyFunctionApp `
   --name MyFunctionApp `
@@ -37,7 +43,7 @@ azd up
 Use this when you know the Azure Samples template name.
 
 ```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+.\template-tool\dist\template-tool.exe apply `
   --source functions-quickstart-dotnet-azd `
   --output .\out\MyFunctionApp `
   --name MyFunctionApp `
@@ -61,7 +67,7 @@ https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git
 Use this when the template is in a repo you can clone.
 
 ```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+.\template-tool\dist\template-tool.exe apply `
   --source https://github.com/Azure-Samples/functions-quickstart-dotnet-azd.git `
   --output .\out\MyFunctionApp `
   --name MyFunctionApp `
@@ -73,7 +79,7 @@ dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
 Use this when you already cloned or edited the template locally.
 
 ```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+.\template-tool\dist\template-tool.exe apply `
   --source C:\src\functions-quickstart-dotnet-azd `
   --output .\out\MyFunctionApp `
   --name MyFunctionApp `
@@ -94,6 +100,14 @@ dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
 
 GitHub sources are cloned to a temporary folder before the tool reads them.
 
+## Build from source instead
+
+If you do not need a standalone exe, you can run directly from source:
+
+```pwsh
+dotnet run --project .\template-tool\TemplatePoc.csproj -- analyze --source .
+```
+
 ## Other modes
 
 ### Analyze
@@ -101,7 +115,7 @@ GitHub sources are cloned to a temporary folder before the tool reads them.
 Use `analyze` to see what the tool detects without planning or writing changes.
 
 ```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- analyze `
+.\template-tool\dist\template-tool.exe analyze `
   --source functions-quickstart-dotnet-azd
 ```
 
@@ -127,7 +141,7 @@ Example output:
 Use `plan` to preview the files and values that would change.
 
 ```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- plan `
+.\template-tool\dist\template-tool.exe plan `
   --source functions-quickstart-dotnet-azd `
   --name MyFunctionApp `
   --namespace Contoso.MyFunctionApp
@@ -138,7 +152,7 @@ dotnet run --project .\template-tool\TemplatePoc.csproj -- plan `
 Use `apply` to copy the source, customize the copy, and run `dotnet build`.
 
 ```pwsh
-dotnet run --project .\template-tool\TemplatePoc.csproj -- apply `
+.\template-tool\dist\template-tool.exe apply `
   --source functions-quickstart-dotnet-azd `
   --output .\out\MyFunctionApp `
   --name MyFunctionApp `
