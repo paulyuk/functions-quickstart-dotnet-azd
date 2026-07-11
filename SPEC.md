@@ -85,6 +85,7 @@ TODO:
 - TypeScript
 - Python
 - Java
+- Go
 - PowerShell
 - Custom handlers
 - Other supported Azure Functions language stacks that need template coverage
